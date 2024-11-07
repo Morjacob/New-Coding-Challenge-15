@@ -11,7 +11,7 @@ const updatePortfolioDisplay = () => {
     }
 
     const value = calculatePortfolioValue();
-    portfolioData.appendChild(totalValueElement);
+    portfolioData.appendChild(value);
 
     const allocation = getPortfolioAllocation();
     
