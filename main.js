@@ -10,8 +10,16 @@ const updatePortfolioDisplay = () => {
         return;
     }
 
-    const value = calculatePortfolioValue();
-    portfolioData.appendChild(value);
+        
+    
+        const value = calculatePortfolioValue();
+    
+        const valueElement = document.createElement('p'); 
+        valueElement.textContent = `Portfolio Value: ${value}`; 
+        portfolioData.appendChild(valueElement); 
+    
+    
+    }; 
 
     const allocation = getPortfolioAllocation();
     
@@ -25,7 +33,6 @@ const updatePortfolioDisplay = () => {
         allocationElement.textContent = `${name}: ${allocation.toFixed(2)}%`;
         portfolioData.appendChild(allocationElement);
     });
-};
 
 
 const displayTransaction = (transaction) => {
