@@ -9,7 +9,7 @@ export class Transaction {
     }
 
     processTransaction() {
-        const asset = getAssetById(this.assetId);
+        const asset = getAssetById(this.assetId); 
 
         if (this.type === 'buy') {
             asset.quantity += this.quantity;
@@ -20,11 +20,12 @@ export class Transaction {
                 throw new Error(`Insufficient quantity for sale of ${asset.name}`);
             }
             asset.quantity -= this.quantity;
-           
+            console.log(`Sold ${this.quantity} of ${asset.name} at $${asset.price} each. New quantity: ${asset.quantity}`);
         }
         else {
             throw new Error("Invalid transaction type. Please use 'buy' or 'sell'.");
         }
     }
 }
+
 
