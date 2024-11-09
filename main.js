@@ -1,89 +1,41 @@
-
 import { calculatePortfolioValue, getPortfolioAllocation } from './portfolio.js';
 import { Transaction } from './transaction.js';
 
-
-const updatePortfolioDisplay = () => {
-  const portfolioData = document.getElementById('portfolio-data');
-  if (!portfolioData) {
-    console.error('Element with id "portfolio-data" not found!');
-    return;
-  }
-
-
-  const value = calculatePortfolioValue();
-
-
-  const valueElement = document.createElement('p');
-  valueElement.textContent = `Portfolio Value: $${value.toFixed(2)}`;
-  portfolioData.appendChild(valueElement);
-
-  const allocation = getPortfolioAllocation();
-  const allocationTitle = document.createElement('h4');
-  allocationTitle.textContent = 'Portfolio Allocation:';
-  portfolioData.appendChild(allocationTitle);
-
-  allocation.forEach(({ name, allocation }) => {
-    const allocationElement = document.createElement('p');
-    allocationElement.textContent = `${name}: ${allocation.toFixed(2)}%`;
-    portfolioData.appendChild(allocationElement);
-  });
-};
-
-
-const displayTransaction = (transaction) => {
-  const transactionDetails = document.getElementById('transaction-details');
-  if (!transactionDetails) {
-    console.error('Element with id "transaction-details" not found!');
-    return;
-  }
-
-  const transactionElement = document.createElement('p');
-  transactionElement.textContent = `Transaction: ${transaction.getTransactionDetails()}`;
-  transactionDetails.appendChild(transactionElement);
-};
-
-
-const updateUpdatedPortfolioDisplay = () => {
-  const updatedPortfolioInfo = document.getElementById('updated-portfolio-info');
-  if (!updatedPortfolioInfo) {
-    console.error('Element with id "updated-portfolio-info" not found!');
-    return;
-  }
-
-  const allocation = getPortfolioAllocation();
-
-  const updatedAllocationTitle = document.createElement('h4');
-  updatedAllocationTitle.textContent = 'Updated Portfolio Allocation:';
-  updatedPortfolioInfo.appendChild(updatedAllocationTitle);
-
-  allocation.forEach(({ name, allocation }) => {
-    const allocationElement = document.createElement('p');
-    allocationElement.textContent = `${name}: ${allocation.toFixed(2)}%`;
-    updatedPortfolioInfo.appendChild(allocationElement);
-  });
-
-
-  const value = calculatePortfolioValue();
-  const valueElement = document.createElement('p');
-  valueElement.textContent = `Updated Portfolio Value: $${value.toFixed(2)}`;
-  updatedPortfolioInfo.appendChild(valueElement);
-};
-
-
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Initial Portfolio:');
-  updatePortfolioDisplay(); 
 
+    displayPortfolio();
 
-  const transaction1 = new Transaction(1, 'buy', 20); 
-  const transaction2 = new Transaction(2, 'sell', 10); 
+//instances of buy and sell transactions to be dynamically displayed on portfolio
+    const transaction1 = new Transaction(1, 'buy', 23); 
+    const transaction2 = new Transaction(2, 'sell', 16); 
 
+   
+    displayTransaction(transaction1);
+    displayPortfolio(); 
 
-  displayTransaction(transaction1);
-  updateUpdatedPortfolioDisplay(); 
-
-  displayTransaction(transaction2);
-  updateUpdatedPortfolioDisplay(); 
+    displayTransaction(transaction2);
+    displayPortfolio(); 
 });
 
+//will show the percentages of stocks and bond sales
+function displayPortfolio() {
+    const totalValue = calculatePortfolioValue();
+    const allocation = getPortfolioAllocation();
+    
+
+    document.getElementById('portfolio-data').innerHTML = `
+        <h2>Total Portfolio Value: $${totalValue.toFixed(2)}</h2>
+        <h3>Portfolio Allocation:</h3>
+        ${allocation.map(asset => `
+            <p>${asset.name}: ${asset.allocatione}%</p>
+        `).join('')}
+    `;
+}
+
+function displayTransaction(transaction) {
+    const transactionDetails = document.getElementById('transaction-details');
+    
+    const transactionElement = document.createElement('p');
+    transactionElement.textContent = `Transaction: ${transaction.getTransactionDetails()}`;
+    transactionDetails.appendChild(transactionElement);
+}
